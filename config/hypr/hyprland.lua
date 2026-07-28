@@ -36,9 +36,11 @@ hl.monitor({
 -- Set programs that you use
 local terminal    = "foot"
 local fileManager = "nautilus"
-local menu        = "hyprlauncher"
+local menu        = "vicinae toggle"   -- launcher principal
 local browser     = "zen-browser"
 local ide         = "zed"
+local powerMenu   = "wlogout -p layer-shell"
+local clipboard   = "cliphist list | wofi --dmenu --prompt 'Clipboard' | cliphist decode | wl-copy"
 
 -------------------
 ---- AUTOSTART ----
@@ -49,10 +51,28 @@ local ide         = "zed"
 -- Autostart necessary processes (like notifications daemons, status bars, etc.)
 -- Or execute your favorite apps at launch like this:
 --
- hl.on("hyprland.start", function ()
-   hl.exec_cmd("waybar & hyprpaper")
-   hl.exec_cmd("vicinae server")
- end)
+hl.on("hyprland.start", function ()
+    -- wallpaper + barra
+    hl.exec_cmd("hyprpaper")
+    hl.exec_cmd("waybar")
+
+    -- daemon de notificacoes
+    hl.exec_cmd("swaync")
+
+    -- inatividade / bloqueio de tela
+    hl.exec_cmd("hypridle")
+
+    -- agente polkit (dialogos de autenticacao grafica)
+    hl.exec_cmd("/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1")
+
+    -- historico de clipboard + persistencia apos fechar a janela de origem
+    hl.exec_cmd("wl-paste --type text --watch cliphist store")
+    hl.exec_cmd("wl-paste --type image --watch cliphist store")
+    hl.exec_cmd("wl-clip-persist --clipboard regular")
+
+    -- launcher
+    hl.exec_cmd("vicinae server")
+end)
 
 
 -------------------------------
@@ -61,8 +81,24 @@ local ide         = "zed"
 
 -- See https://wiki.hypr.land/Configuring/Advanced-and-Cool/Environment-variables/
 
+-- cursor
+hl.env("XCURSOR_THEME", "Adwaita")
 hl.env("XCURSOR_SIZE", "24")
+hl.env("HYPRCURSOR_THEME", "Adwaita")
 hl.env("HYPRCURSOR_SIZE", "24")
+
+-- Qt: tema controlado por qt6ct (ver config/qt6ct/qt6ct.conf)
+hl.env("QT_QPA_PLATFORMTHEME", "qt6ct")
+hl.env("QT_AUTO_SCREEN_SCALE_FACTOR", "1")
+hl.env("QT_WAYLAND_DISABLE_WINDOWDECORATION", "1")
+
+-- Wayland nativo onde der (menos XWayland = menos blur quebrado)
+hl.env("MOZ_ENABLE_WAYLAND", "1")
+hl.env("ELECTRON_OZONE_PLATFORM_HINT", "auto")
+hl.env("_JAVA_AWT_WM_NONREPARENTING", "1")
+
+-- Intel Iris Xe
+hl.env("LIBVA_DRIVER_NAME", "iHD")
 
 
 -----------------------
@@ -89,20 +125,38 @@ hl.env("HYPRCURSOR_SIZE", "24")
 -----------------------
 
 -- Refer to https://wiki.hypr.land/Configuring/Basics/Variables/
+-- Paleta Tokyo Night (ver colors/tokyonight.md no repo de dotfiles)
+local tn = {
+    bg       = "1a1b26",
+    bg_dark  = "16161e",
+    surface  = "24283b",
+    gutter   = "3b4261",
+    comment  = "565f89",
+    fg       = "c0caf5",
+    blue     = "7aa2f7",
+    cyan     = "7dcfff",
+    magenta  = "bb9af7",
+    orange   = "ff9e64",
+    green    = "9ece6a",
+    red      = "f7768e",
+}
+
 hl.config({
     general = {
-        gaps_in  = 5,
-        gaps_out = 20,
+        -- gaps enxutos: a tela do notebook e 1366x768, espaco e caro
+        gaps_in  = 4,
+        gaps_out = 8,
 
-        border_size = 1,
+        border_size = 2,
 
         col = {
-            active_border   = { colors = {"rgba(33ccffee)", "rgba(00ff99ee)"}, angle = 45 },
-            inactive_border = "rgba(595959aa)",
+            -- gradiente azul -> magenta na janela ativa
+            active_border   = { colors = {"rgba(" .. tn.blue .. "ff)", "rgba(" .. tn.magenta .. "ff)"}, angle = 45 },
+            inactive_border = "rgba(" .. tn.gutter .. "aa)",
         },
 
-        -- Set to true to enable resizing windows by clicking and dragging on borders and gaps
-        resize_on_border = false,
+        resize_on_border = true,
+        extend_border_grab_area = 8,
 
         -- Please see https://wiki.hypr.land/Configuring/Advanced-and-Cool/Tearing/ before you turn this on
         allow_tearing = false,
@@ -111,25 +165,34 @@ hl.config({
     },
 
     decoration = {
-        rounding       = 5,
+        rounding       = 10,
         rounding_power = 2,
 
-        -- Change transparency of focused and unfocused windows
         active_opacity   = 1.0,
-        inactive_opacity = 0.8,
+        inactive_opacity = 0.94,
 
         shadow = {
             enabled      = true,
-            range        = 4,
+            range        = 14,
             render_power = 3,
-            color        = 0xee1a1a1a,
+            offset       = { 0, 3 },
+            color        = "rgba(0d0d14aa)",
+            color_inactive = "rgba(0d0d1466)",
         },
 
         blur = {
-            enabled   = true,
-            size      = 3,
-            passes    = 1,
-            vibrancy  = 0.1696,
+            enabled     = true,
+            size        = 6,
+            passes      = 3,
+            new_optimizations = true,
+            xray        = false,
+            ignore_opacity = true,
+            noise       = 0.02,
+            contrast    = 1.05,
+            brightness  = 0.9,
+            vibrancy    = 0.20,
+            popups      = true,
+            popups_ignorealpha = 0.6,
         },
     },
 
@@ -263,21 +326,44 @@ local mainMod = "SUPER" -- Sets "Windows" key as main modifier
 hl.bind(mainMod .. " + Q", hl.dsp.exec_cmd(terminal))
 local closeWindowBind = hl.bind(mainMod .. " + C", hl.dsp.window.close())
 -- closeWindowBind:set_enabled(false)
-hl.bind(mainMod .. " + M", hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch 'hl.dsp.exit()'"))
+hl.bind(mainMod .. " + M", hl.dsp.exec_cmd(powerMenu))
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager))
 hl.bind(mainMod .. " + B", hl.dsp.exec_cmd(browser))
-hl.bind(mainMod .. " + Space", hl.dsp.exec_cmd("vicinae toggle"))
+hl.bind(mainMod .. " + Space", hl.dsp.exec_cmd(menu))
 hl.bind(mainMod .. " + Z", hl.dsp.exec_cmd(ide))
 hl.bind(mainMod .. " + V", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mainMod .. " + R", hl.dsp.exec_cmd(menu))
 hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
 hl.bind(mainMod .. " + J", hl.dsp.layout("togglesplit"))    -- dwindle only
+hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen())
+
+-- Bloqueio de tela
+hl.bind(mainMod .. " + L", hl.dsp.exec_cmd("loginctl lock-session"))
+
+-- Historico de clipboard
+hl.bind(mainMod .. " + SHIFT + V", hl.dsp.exec_cmd(clipboard))
+
+-- Central de notificacoes (swaync)
+hl.bind(mainMod .. " + N",         hl.dsp.exec_cmd("swaync-client -t -sw"))
+hl.bind(mainMod .. " + SHIFT + N", hl.dsp.exec_cmd("swaync-client -d -sw"))
 
 -- Move focus with mainMod + arrow keysi
 hl.bind(mainMod .. " + left",  hl.dsp.focus({ direction = "left" }))
 hl.bind(mainMod .. " + right", hl.dsp.focus({ direction = "right" }))
 hl.bind(mainMod .. " + up",    hl.dsp.focus({ direction = "up" }))
 hl.bind(mainMod .. " + down",  hl.dsp.focus({ direction = "down" }))
+
+-- Mover a janela ativa
+hl.bind(mainMod .. " + SHIFT + left",  hl.dsp.window.move({ direction = "left" }))
+hl.bind(mainMod .. " + SHIFT + right", hl.dsp.window.move({ direction = "right" }))
+hl.bind(mainMod .. " + SHIFT + up",    hl.dsp.window.move({ direction = "up" }))
+hl.bind(mainMod .. " + SHIFT + down",  hl.dsp.window.move({ direction = "down" }))
+
+-- Redimensionar a janela ativa
+hl.bind(mainMod .. " + CTRL + left",  hl.dsp.window.resize({ delta = { -60, 0 } }), { repeating = true })
+hl.bind(mainMod .. " + CTRL + right", hl.dsp.window.resize({ delta = {  60, 0 } }), { repeating = true })
+hl.bind(mainMod .. " + CTRL + up",    hl.dsp.window.resize({ delta = { 0, -60 } }), { repeating = true })
+hl.bind(mainMod .. " + CTRL + down",  hl.dsp.window.resize({ delta = { 0,  60 } }), { repeating = true })
 
 -- Switch workspaces with mainMod + [0-9]
 -- Move active window to a workspace with mainMod + SHIFT + [0-9]
@@ -382,4 +468,40 @@ for i = 6, 10 do
     })
 end
 
-hl.env("GTK_THEME", "Adwaita-dark")
+-- Utilitarios sempre flutuantes e centralizados
+for _, cls in ipairs({ "pavucontrol", "blueman-manager", "nm-connection-editor", "org.gnome.Calculator" }) do
+    hl.window_rule({
+        name  = "float-" .. cls,
+        match = { class = "^(" .. cls .. ")$" },
+        float = true,
+        center = true,
+        size  = "700 500",
+    })
+end
+
+-- Terminal flutuante do nmtui (aberto pelo clique na waybar)
+hl.window_rule({
+    name  = "float-nmtui",
+    match = { class = "^(nmtui-float)$" },
+    float = true,
+    center = true,
+    size  = "800 560",
+})
+
+-- Dialogos de arquivo / popups em geral
+hl.window_rule({
+    name  = "float-dialogs",
+    match = { title = "^(Open File|Save File|Abrir|Salvar como|Escolher arquivos)$" },
+    float = true,
+    center = true,
+})
+
+-- Blur nas camadas (barra, launcher, notificacoes)
+for _, ns in ipairs({ "waybar", "swaync-control-center", "swaync-notification-window", "vicinae", "wofi", "logout_dialog" }) do
+    hl.layer_rule({
+        name  = "blur-" .. ns,
+        match = { namespace = "^(" .. ns .. ")$" },
+        blur  = true,
+        ignore_alpha = 0.35,
+    })
+end

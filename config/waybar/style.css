@@ -1,0 +1,226 @@
+/* Waybar - Tokyo Night
+ * Paleta em ../../colors/tokyonight.md
+ */
+
+@define-color bg          #1a1b26;
+@define-color bg_dark     #16161e;
+@define-color bg_float    #16161e;
+@define-color bg_high     #292e42;
+@define-color fg          #c0caf5;
+@define-color fg_dark     #a9b1d6;
+@define-color fg_gutter   #3b4261;
+@define-color comment     #565f89;
+@define-color blue        #7aa2f7;
+@define-color cyan        #7dcfff;
+@define-color magenta     #bb9af7;
+@define-color orange      #ff9e64;
+@define-color yellow      #e0af68;
+@define-color green       #9ece6a;
+@define-color teal        #73daca;
+@define-color red         #f7768e;
+
+* {
+  font-family: "JetBrainsMono Nerd Font", "InputMono Nerd Font", sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  min-height: 0;
+  border: none;
+  border-radius: 0;
+}
+
+window#waybar {
+  background: transparent;
+  color: @fg;
+}
+
+window#waybar.hidden {
+  opacity: 0.2;
+}
+
+/* ---------- blocos ---------- */
+
+.modules-left,
+.modules-center,
+.modules-right {
+  background: alpha(@bg, 0.92);
+  border: 1px solid alpha(@fg_gutter, 0.8);
+  border-radius: 10px;
+  padding: 0 4px;
+}
+
+/* ---------- workspaces ---------- */
+
+#workspaces {
+  padding: 0 2px;
+}
+
+#workspaces button {
+  all: unset;
+  padding: 0 7px;
+  margin: 4px 1px;
+  border-radius: 6px;
+  color: @comment;
+  transition: all 200ms cubic-bezier(0.55, 0.06, 0.68, 0.19);
+}
+
+#workspaces button:hover {
+  background: alpha(@bg_high, 0.9);
+  color: @fg;
+}
+
+#workspaces button.active {
+  background: alpha(@blue, 0.18);
+  color: @blue;
+  padding: 0 13px;
+}
+
+#workspaces button.urgent {
+  background: alpha(@red, 0.25);
+  color: @red;
+}
+
+#submap {
+  color: @orange;
+  padding: 0 10px;
+}
+
+/* ---------- janela ativa ---------- */
+
+#window {
+  color: @fg_dark;
+  padding: 0 14px;
+  font-weight: 500;
+}
+
+window#waybar.empty #window {
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+
+/* ---------- módulos da direita ---------- */
+
+#tray,
+#privacy,
+#custom-notification,
+#backlight,
+#pulseaudio,
+#bluetooth,
+#network,
+#battery,
+#clock,
+#custom-power {
+  padding: 0 9px;
+  margin: 4px 2px;
+  border-radius: 6px;
+  background: transparent;
+  transition: background 200ms ease;
+}
+
+#tray:hover,
+#backlight:hover,
+#pulseaudio:hover,
+#bluetooth:hover,
+#network:hover,
+#battery:hover,
+#clock:hover,
+#custom-notification:hover,
+#custom-power:hover {
+  background: alpha(@bg_high, 0.9);
+}
+
+#clock {
+  color: @blue;
+  font-weight: 700;
+}
+
+#battery {
+  color: @green;
+}
+
+#battery.warning:not(.charging) {
+  color: @yellow;
+}
+
+#battery.critical:not(.charging) {
+  color: @red;
+  background: alpha(@red, 0.15);
+  animation: blink 1.2s steps(2, start) infinite;
+}
+
+#battery.charging,
+#battery.plugged {
+  color: @teal;
+}
+
+@keyframes blink {
+  to {
+    background: alpha(@red, 0.35);
+  }
+}
+
+#network {
+  color: @cyan;
+}
+
+#network.disconnected,
+#network.disabled {
+  color: @comment;
+}
+
+#bluetooth {
+  color: @blue;
+}
+
+#bluetooth.off,
+#bluetooth.disabled {
+  color: @comment;
+}
+
+#pulseaudio {
+  color: @magenta;
+}
+
+#pulseaudio.muted {
+  color: @comment;
+}
+
+#backlight {
+  color: @yellow;
+}
+
+#custom-notification {
+  color: @fg_dark;
+  font-size: 14px;
+}
+
+#custom-power {
+  color: @red;
+  font-size: 13px;
+  padding: 0 11px;
+}
+
+#privacy {
+  color: @orange;
+}
+
+#tray > .passive {
+  -gtk-icon-effect: dim;
+}
+
+#tray > .needs-attention {
+  -gtk-icon-effect: highlight;
+}
+
+/* ---------- tooltips ---------- */
+
+tooltip {
+  background: @bg_dark;
+  border: 1px solid @fg_gutter;
+  border-radius: 8px;
+}
+
+tooltip label {
+  color: @fg;
+  padding: 2px;
+}

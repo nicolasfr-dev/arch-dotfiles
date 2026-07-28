@@ -1,0 +1,53 @@
+/* wlogout - Tokyo Night */
+
+* {
+  background-image: none;
+  font-family: "JetBrainsMono Nerd Font", "InputMono Nerd Font", sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  transition: all 200ms ease;
+}
+
+window {
+  background-color: rgba(22, 22, 30, 0.88);
+}
+
+button {
+  color: #a9b1d6;
+  background-color: rgba(36, 40, 59, 0.85);
+  border: 1px solid #3b4261;
+  border-radius: 14px;
+  margin: 10px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 22%;
+}
+
+button:focus,
+button:hover {
+  color: #c0caf5;
+  background-color: rgba(122, 162, 247, 0.20);
+  border-color: #7aa2f7;
+  background-size: 26%;
+}
+
+#lock     { background-image: image(url("/usr/share/wlogout/icons/lock.png")); }
+#logout   { background-image: image(url("/usr/share/wlogout/icons/logout.png")); }
+#suspend  { background-image: image(url("/usr/share/wlogout/icons/suspend.png")); }
+#hibernate{ background-image: image(url("/usr/share/wlogout/icons/hibernate.png")); }
+#reboot   { background-image: image(url("/usr/share/wlogout/icons/reboot.png")); }
+#shutdown { background-image: image(url("/usr/share/wlogout/icons/shutdown.png")); }
+
+#shutdown:focus,
+#shutdown:hover {
+  background-color: rgba(247, 118, 142, 0.20);
+  border-color: #f7768e;
+  color: #f7768e;
+}
+
+#reboot:focus,
+#reboot:hover {
+  background-color: rgba(255, 158, 100, 0.20);
+  border-color: #ff9e64;
+  color: #ff9e64;
+}

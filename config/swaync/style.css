@@ -1,0 +1,309 @@
+/* swaync - Tokyo Night */
+
+@define-color bg        #1a1b26;
+@define-color bg_dark   #16161e;
+@define-color bg_high   #292e42;
+@define-color surface   #24283b;
+@define-color fg        #c0caf5;
+@define-color fg_dark   #a9b1d6;
+@define-color gutter    #3b4261;
+@define-color comment   #565f89;
+@define-color blue      #7aa2f7;
+@define-color cyan      #7dcfff;
+@define-color magenta   #bb9af7;
+@define-color orange    #ff9e64;
+@define-color green     #9ece6a;
+@define-color red       #f7768e;
+
+* {
+  font-family: "JetBrainsMono Nerd Font", "InputMono Nerd Font", sans-serif;
+  font-size: 13px;
+}
+
+/* ---------- notificações flutuantes ---------- */
+
+.notification-row {
+  outline: none;
+  margin: 0;
+  padding: 0;
+}
+
+.notification-row:focus .notification-background,
+.notification-row:hover .notification-background {
+  background: @surface;
+}
+
+.notification-background {
+  background: alpha(@bg, 0.96);
+  border: 1px solid @gutter;
+  border-radius: 12px;
+  margin: 6px 8px;
+  padding: 0;
+}
+
+.notification-background .notification {
+  padding: 0;
+  border-radius: 12px;
+}
+
+.notification-background .notification.critical {
+  border-left: 3px solid @red;
+}
+
+.notification-background .notification.low {
+  border-left: 3px solid @comment;
+}
+
+.notification-background .notification.normal {
+  border-left: 3px solid @blue;
+}
+
+.notification-content {
+  padding: 12px;
+  color: @fg;
+}
+
+.summary {
+  font-size: 13px;
+  font-weight: 700;
+  color: @fg;
+}
+
+.time {
+  font-size: 11px;
+  color: @comment;
+  margin-right: 20px;
+}
+
+.body {
+  font-size: 12px;
+  font-weight: 400;
+  color: @fg_dark;
+}
+
+.body-image {
+  margin-top: 8px;
+  border-radius: 8px;
+}
+
+.image {
+  border-radius: 8px;
+  margin-right: 10px;
+}
+
+.close-button {
+  background: transparent;
+  color: @comment;
+  border: none;
+  border-radius: 8px;
+  margin: 6px;
+  padding: 2px;
+  min-width: 22px;
+  min-height: 22px;
+}
+
+.close-button:hover {
+  background: alpha(@red, 0.2);
+  color: @red;
+}
+
+.notification-action,
+.notification-default-action {
+  background: transparent;
+  border: none;
+  border-radius: 12px;
+  color: @fg;
+}
+
+.notification-action {
+  background: @bg_high;
+  color: @fg_dark;
+  border-radius: 8px;
+  margin: 0 6px 8px 6px;
+  padding: 6px;
+}
+
+.notification-action:hover {
+  background: alpha(@blue, 0.2);
+  color: @blue;
+}
+
+.inline-reply-entry {
+  background: @bg_dark;
+  color: @fg;
+  caret-color: @blue;
+  border: 1px solid @gutter;
+  border-radius: 8px;
+  margin: 0 6px 8px 6px;
+  padding: 6px;
+}
+
+.inline-reply-button {
+  background: @bg_high;
+  color: @fg_dark;
+  border: none;
+  border-radius: 8px;
+  margin: 0 6px 8px 0;
+  padding: 6px 12px;
+}
+
+.inline-reply-button:hover {
+  background: alpha(@blue, 0.2);
+  color: @blue;
+}
+
+/* ---------- central de notificações ---------- */
+
+.control-center {
+  background: alpha(@bg, 0.97);
+  border: 1px solid @gutter;
+  border-radius: 14px;
+  padding: 10px;
+  color: @fg;
+}
+
+.control-center-list {
+  background: transparent;
+}
+
+.control-center .notification-background {
+  margin: 5px 0;
+}
+
+.control-center-list-placeholder {
+  color: @comment;
+  font-size: 15px;
+  opacity: 0.6;
+}
+
+.floating-notifications {
+  background: transparent;
+}
+
+.blank-window {
+  background: transparent;
+}
+
+/* ---------- widgets ---------- */
+
+.widget-title {
+  color: @fg;
+  font-size: 15px;
+  font-weight: 700;
+  margin: 6px 4px 10px 4px;
+}
+
+.widget-title > button {
+  background: @bg_high;
+  color: @fg_dark;
+  border: none;
+  border-radius: 8px;
+  font-size: 12px;
+  padding: 6px 12px;
+}
+
+.widget-title > button:hover {
+  background: alpha(@red, 0.2);
+  color: @red;
+}
+
+.widget-dnd {
+  color: @fg;
+  font-size: 13px;
+  margin: 4px;
+}
+
+.widget-dnd > switch {
+  background: @bg_high;
+  border: 1px solid @gutter;
+  border-radius: 14px;
+  box-shadow: none;
+}
+
+.widget-dnd > switch:checked {
+  background: @blue;
+  border-color: @blue;
+}
+
+.widget-dnd > switch slider {
+  background: @fg;
+  border-radius: 14px;
+}
+
+.widget-mpris {
+  background: @surface;
+  border-radius: 12px;
+  padding: 8px;
+  margin: 6px 0;
+}
+
+.widget-mpris-player {
+  background: transparent;
+  padding: 4px;
+}
+
+.widget-mpris-title {
+  color: @fg;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.widget-mpris-subtitle {
+  color: @comment;
+  font-size: 11px;
+}
+
+.widget-mpris button {
+  background: transparent;
+  color: @fg_dark;
+  border: none;
+  border-radius: 8px;
+  padding: 4px 8px;
+}
+
+.widget-mpris button:hover {
+  background: alpha(@blue, 0.2);
+  color: @blue;
+}
+
+.widget-volume,
+.widget-backlight {
+  background: @surface;
+  border-radius: 12px;
+  padding: 10px;
+  margin: 6px 0;
+  color: @fg;
+  font-size: 13px;
+}
+
+.widget-volume trough,
+.widget-backlight trough {
+  background: @bg_dark;
+  border-radius: 10px;
+  min-height: 8px;
+}
+
+.widget-volume highlight {
+  background: @magenta;
+  border-radius: 10px;
+}
+
+.widget-backlight highlight {
+  background: @orange;
+  border-radius: 10px;
+}
+
+.widget-volume slider,
+.widget-backlight slider {
+  background: @fg;
+  border-radius: 10px;
+  min-width: 12px;
+  min-height: 12px;
+  margin: -3px;
+}
+
+.widget-volume > box > button {
+  background: transparent;
+  color: @fg_dark;
+  border: none;
+}

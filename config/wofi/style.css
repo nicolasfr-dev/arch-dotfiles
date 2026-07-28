@@ -1,0 +1,77 @@
+/* wofi - Tokyo Night */
+
+* {
+  font-family: "JetBrainsMono Nerd Font", "InputMono Nerd Font", monospace;
+  font-size: 13px;
+}
+
+window {
+  background-color: rgba(26, 27, 38, 0.96);
+  border: 1px solid #3b4261;
+  border-radius: 14px;
+  color: #c0caf5;
+}
+
+#outer-box {
+  padding: 14px;
+}
+
+#input {
+  background-color: #16161e;
+  color: #c0caf5;
+  border: 1px solid #3b4261;
+  border-radius: 10px;
+  padding: 10px 12px;
+  margin-bottom: 12px;
+}
+
+#input:focus {
+  border-color: #7aa2f7;
+}
+
+#input image {
+  color: #565f89;
+}
+
+#scroll {
+  margin: 0;
+}
+
+#inner-box {
+  background-color: transparent;
+}
+
+#entry {
+  padding: 8px 10px;
+  border-radius: 8px;
+  background-color: transparent;
+}
+
+#entry:selected {
+  background-color: rgba(122, 162, 247, 0.18);
+}
+
+#entry image {
+  margin-right: 10px;
+}
+
+#text {
+  color: #a9b1d6;
+}
+
+#entry:selected #text {
+  color: #c0caf5;
+  font-weight: 600;
+}
+
+#text:selected {
+  color: #c0caf5;
+}
+
+#unselected {
+  color: #a9b1d6;
+}
+
+#selected {
+  color: #7aa2f7;
+}

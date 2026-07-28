@@ -1,0 +1,187 @@
+// Waybar - Tokyo Night
+// Layout compacto para eDP-1 (1366x768) + HDMI-A-1 (1920x1080)
+{
+  "layer": "top",
+  "position": "top",
+  "height": 30,
+  "spacing": 0,
+  "margin-top": 6,
+  "margin-left": 8,
+  "margin-right": 8,
+
+  "modules-left": [
+    "hyprland/workspaces",
+    "hyprland/submap"
+  ],
+  "modules-center": [
+    "hyprland/window"
+  ],
+  "modules-right": [
+    "tray",
+    "privacy",
+    "custom/notification",
+    "backlight",
+    "pulseaudio",
+    "bluetooth",
+    "network",
+    "battery",
+    "clock",
+    "custom/power"
+  ],
+
+  "hyprland/workspaces": {
+    "format": "{icon}",
+    "on-click": "activate",
+    "sort-by-number": true,
+    "format-icons": {
+      "active": "",
+      "default": "",
+      "empty": ""
+    },
+    "persistent-workspaces": {
+      "eDP-1": [6, 7, 8],
+      "HDMI-A-1": [1, 2, 3]
+    }
+  },
+
+  "hyprland/submap": {
+    "format": "󰘴 {}",
+    "tooltip": false
+  },
+
+  "hyprland/window": {
+    "format": "{title}",
+    "max-length": 45,
+    "separate-outputs": true,
+    "rewrite": {
+      "(.*) — Zen Browser": "󰈹  $1",
+      "(.*) - Zed": "󰘐  $1",
+      "(.*) - foot": "  $1",
+      "^foot$": "  terminal",
+      "": "󰇄  desktop"
+    }
+  },
+
+  "clock": {
+    "format": "{:%H:%M}",
+    "format-alt": "{:%a %d/%m  %H:%M}",
+    "tooltip-format": "<tt><small>{calendar}</small></tt>",
+    "calendar": {
+      "mode": "month",
+      "mode-mon-col": 3,
+      "weeks-pos": "right",
+      "on-scroll": 1,
+      "format": {
+        "months": "<span color='#c0caf5'><b>{}</b></span>",
+        "days": "<span color='#a9b1d6'>{}</span>",
+        "weeks": "<span color='#7dcfff'><b>W{}</b></span>",
+        "weekdays": "<span color='#ff9e64'><b>{}</b></span>",
+        "today": "<span color='#7aa2f7'><b><u>{}</u></b></span>"
+      }
+    },
+    "actions": {
+      "on-click-right": "mode",
+      "on-scroll-up": "shift_up",
+      "on-scroll-down": "shift_down"
+    }
+  },
+
+  "battery": {
+    "states": {
+      "warning": 30,
+      "critical": 15
+    },
+    "format": "{icon}  {capacity}%",
+    "format-charging": "󰂄  {capacity}%",
+    "format-plugged": "󰚥  {capacity}%",
+    "format-icons": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"],
+    "format-time": "{H}h{M}m",
+    "tooltip-format": "{timeTo}  ({power}W)",
+    "interval": 30
+  },
+
+  "network": {
+    "format-wifi": "󰤨  {signalStrength}%",
+    "format-ethernet": "󰈀",
+    "format-linked": "󰈀  {ifname}",
+    "format-disconnected": "󰤭",
+    "tooltip-format-wifi": "{essid}\n{ipaddr}\n󰇚 {bandwidthDownBits}  󰕒 {bandwidthUpBits}",
+    "tooltip-format-ethernet": "{ifname}\n{ipaddr}",
+    "tooltip-format-disconnected": "Sem conexão",
+    "on-click": "foot -a nmtui-float nmtui",
+    "interval": 5
+  },
+
+  "bluetooth": {
+    "format": "󰂯",
+    "format-disabled": "",
+    "format-off": "󰂲",
+    "format-connected": "󰂱",
+    "format-connected-battery": "󰂱  {device_battery_percentage}%",
+    "tooltip-format-connected": "{device_enumerate}",
+    "tooltip-format-enumerate-connected": "{device_alias}",
+    "on-click": "blueman-manager"
+  },
+
+  "pulseaudio": {
+    "format": "{icon}  {volume}%",
+    "format-muted": "󰝟",
+    "format-bluetooth": "󰂰  {volume}%",
+    "format-bluetooth-muted": "󰂲",
+    "format-icons": {
+      "headphone": "󰋋",
+      "headset": "󰋎",
+      "default": ["󰕿", "󰖀", "󰕾"]
+    },
+    "scroll-step": 5,
+    "on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
+    "on-click-right": "pavucontrol"
+  },
+
+  "backlight": {
+    "format": "{icon}  {percent}%",
+    "format-icons": ["󰃞", "󰃟", "󰃠"],
+    "scroll-step": 5,
+    "tooltip-format": "Brilho {percent}%"
+  },
+
+  "privacy": {
+    "icon-spacing": 6,
+    "icon-size": 12,
+    "modules": [
+      { "type": "screenshare" },
+      { "type": "audio-in" }
+    ]
+  },
+
+  "custom/notification": {
+    "tooltip": false,
+    "format": "{icon}",
+    "format-icons": {
+      "notification": "󱅫",
+      "none": "󰂚",
+      "dnd-notification": "󰂛",
+      "dnd-none": "󰂛",
+      "inhibited-notification": "󱅫",
+      "inhibited-none": "󰂚",
+      "dnd-inhibited-notification": "󰂛",
+      "dnd-inhibited-none": "󰂛"
+    },
+    "return-type": "json",
+    "exec": "swaync-client -swb",
+    "on-click": "swaync-client -t -sw",
+    "on-click-right": "swaync-client -d -sw",
+    "escape": true
+  },
+
+  "tray": {
+    "icon-size": 14,
+    "spacing": 8
+  },
+
+  "custom/power": {
+    "format": "󰐥",
+    "tooltip": false,
+    "on-click": "wlogout || hyprctl dispatch exit"
+  }
+}
