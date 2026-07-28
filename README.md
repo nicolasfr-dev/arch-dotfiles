@@ -102,6 +102,27 @@ Gerado por `scripts/gen-wallpaper.py` (Python puro, sem PIL/ImageMagick) em
 python3 scripts/gen-wallpaper.py ~/.local/share/wallpapers/tokyonight.png 2560 1440
 ```
 
+## Zen Browser — tema desativado
+
+`config/zen/` contém um tema Tokyo Night para o Zen que **não é aplicado** pelo
+`install.sh`. Ele quebra o hover-to-expand da sidebar: com os arquivos removidos
+o hover volta, com eles aplicados para. A causa nunca foi isolada — só sabemos
+que está no `user.js` ou no `userChrome.css`.
+
+```bash
+scripts/zen-theme.sh prefs   # só o user.js, sem CSS (próximo passo da bisseção)
+scripts/zen-theme.sh on      # tudo
+scripts/zen-theme.sh off     # remove e limpa os prefs do prefs.js
+scripts/zen-theme.sh status
+```
+
+O Zen precisa estar **fechado** para `on`/`prefs`/`off`: ele reescreve o
+`prefs.js` ao sair e desfaria a limpeza.
+
+Alternativa sem arquivo nenhum no perfil: acento e border-radius em
+Settings → Look and Feel, e o fundo pelo gradiente por workspace (botão direito
+no seletor de workspace).
+
 ## Notas
 
 - Apps **Qt5** precisam de `QT_QPA_PLATFORMTHEME=qt5ct`; o padrão global está em `qt6ct`
