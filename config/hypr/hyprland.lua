@@ -60,7 +60,10 @@ hl.on("hyprland.start", function ()
     hl.exec_cmd("swaync")
 
     -- inatividade / bloqueio de tela
-    hl.exec_cmd("hypridle")
+    -- DESATIVADO ate validar o hyprlock nesta maquina (ele deu SIGSEGV no
+    -- caminho de exit, ver git log). Bloqueio manual segue em SUPER+L.
+    -- Para religar: descomente a linha abaixo e rode `hypridle &`.
+    -- hl.exec_cmd("hypridle")
 
     -- agente polkit (dialogos de autenticacao grafica)
     hl.exec_cmd("/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1")
@@ -342,8 +345,11 @@ hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
 hl.bind(mainMod .. " + J", hl.dsp.layout("togglesplit"))    -- dwindle only
 hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen())
 
--- Bloqueio de tela
-hl.bind(mainMod .. " + L", hl.dsp.exec_cmd("loginctl lock-session"))
+-- Bloqueio de tela.
+-- Chama o hyprlock direto (e nao "loginctl lock-session") para nao depender do
+-- hypridle estar rodando: quem escuta o sinal de lock-session e o hypridle.
+-- --grace 2: nos 2 primeiros segundos, mexer o mouse/teclado ja desbloqueia.
+hl.bind(mainMod .. " + L", hl.dsp.exec_cmd("pidof hyprlock || hyprlock --grace 2"))
 
 -- Historico de clipboard
 hl.bind(mainMod .. " + SHIFT + V", hl.dsp.exec_cmd(clipboard))
