@@ -79,6 +79,31 @@
   --zen-border-radius: 10px !important;
 }
 
+/* ---- sidebar opaca ----
+ * #navigator-toolbox e transparent por design (zen-browser-ui.css), entao a
+ * sidebar mostrava o wallpaper atraves do blur do Hyprland: medido #131313,
+ * um cinza neutro que nao vem do tema. A area de conteudo, por ser opaca, ja
+ * estava correta em #1a1b26. Aqui a gente fecha a transparencia.
+ */
+#navigator-toolbox,
+#titlebar,
+.zen-toolbar-background {
+  background-color: #1a1b26 !important;
+}
+
+.zen-browser-generic-background::after,
+.zen-browser-generic-background::before {
+  background: #1a1b26 !important;
+  background-blend-mode: normal !important;
+}
+
+:root {
+  --zen-background-opacity: 1 !important;
+  --zen-main-browser-background-old: #1a1b26 !important;
+  --zen-main-browser-background-toolbar-old: #1a1b26 !important;
+  --zen-themed-toolbar-bg-transparent: #1a1b26 !important;
+}
+
 /* Barra de progresso de carregamento */
 .tab-loading-burst::before {
   background-color: #7aa2f7 !important;
