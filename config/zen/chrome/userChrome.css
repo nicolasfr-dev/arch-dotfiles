@@ -23,8 +23,8 @@
   --zen-branding-paper: #c0caf5 !important;
 
   /* ---- fundos que o Zen NAO deriva: valores explicitos, sem light-dark ---- */
-  --zen-main-browser-background: #1a1b26 !important;
-  --zen-main-browser-background-toolbar: #1a1b26 !important;
+  /* Pintado pela camada .zen-browser-generic-background (pointer-events: none) */
+  --zen-main-browser-background: var(--tn-glass) !important;
   --zen-navigator-toolbox-background: transparent !important;
 
   --zen-colors-primary: #7aa2f7 !important;
@@ -106,14 +106,19 @@
   background-color: var(--tn-glass) !important;
 }
 
-/* Moldura ao redor do site.
- * #browser e #tabbrowser-tabpanels sao 'transparent !important' no Zen, entao
- * a faixa em volta do conteudo mostrava o wallpaper cru (medido #111111).
- * Tingimos o wrapper, e nao o #browser: este ultimo tambem contem a sidebar,
- * e as duas camadas empilhariam. */
-#zen-appcontent-wrapper {
+/* Divisoria entre a sidebar e o site.
+ * #zen-sidebar-splitter e 'background: transparent' com largura
+ * --zen-element-separation, entao aparecia o wallpaper cru ali. */
+#zen-sidebar-splitter {
   background-color: var(--tn-glass) !important;
 }
+
+/* NAO pintar #zen-appcontent-wrapper nem #browser.
+ * Com o hover-to-expand da sidebar, o #navigator-toolbox flutua POR CIMA do
+ * conteudo. Dar background ao wrapper faz ele capturar o mouse no lugar da
+ * sidebar -- o hover morre e so resta abrir no clique.
+ * A moldura do conteudo se pinta pela camada .zen-browser-generic-background,
+ * que e 'pointer-events: none' e portanto nao interfere no hover. */
 
 /* Barra de progresso de carregamento */
 .tab-loading-burst::before {
