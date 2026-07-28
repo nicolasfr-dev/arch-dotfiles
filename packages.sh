@@ -29,6 +29,7 @@ QOL_REPO=(
   # desktop
   hyprpicker            # conta-gotas de cor (SUPER+SHIFT+C)
   hyprsunset            # filtro de luz azul (SUPER+SHIFT+T)
+  hyprpolkitagent       # agente polkit nativo (nome SEM hifens, e repo oficial)
   power-profiles-daemon # perfis de energia + modulo na waybar
   ffmpegthumbnailer     # miniaturas de video no nautilus
   noto-fonts-cjk        # cobertura de glifos
@@ -41,17 +42,28 @@ QOL_REPO=(
 AUR=(
   wlogout                  # menu de energia
   tokyonight-gtk-theme-git # tema GTK
-  hyprpolkit-agent         # agente polkit nativo do Hyprland
   wl-screenrec             # grava tela com encoding por hardware (Iris Xe)
 )
 
+# Sem `set -e` daqui pra baixo de proposito: um nome de pacote errado faz o
+# pacman/yay abortar a transacao inteira, e com -e o script morreria antes das
+# etapas seguintes (foi o que aconteceu: um nome errado no AUR deixou o
+# power-profiles-daemon sem habilitar, sem nenhum aviso).
+FALHAS=()
+
 echo "==> repos oficiais"
-sudo pacman -S --needed "${REPO[@]}" "${QOL_REPO[@]}"
+sudo pacman -S --needed "${REPO[@]}" "${QOL_REPO[@]}" || FALHAS+=("pacman")
 
 echo "==> AUR"
-yay -S --needed "${AUR[@]}"
+yay -S --needed "${AUR[@]}" || FALHAS+=("yay/AUR")
 
 echo "==> habilitando o power-profiles-daemon"
-sudo systemctl enable --now power-profiles-daemon.service
+sudo systemctl enable --now power-profiles-daemon.service || FALHAS+=("power-profiles-daemon")
+
+if (( ${#FALHAS[@]} )); then
+  printf '\n\e[33m!\e[0m etapas com falha: %s\n' "${FALHAS[*]}"
+  printf '  reveja a saida acima antes de rodar o install.sh\n'
+  exit 1
+fi
 
 echo "==> pronto. Agora rode: ./install.sh"

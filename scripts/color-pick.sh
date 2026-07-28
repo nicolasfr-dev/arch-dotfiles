@@ -7,8 +7,8 @@ command -v hyprpicker >/dev/null || {
   exit 1
 }
 
-# -a ja copia para o clipboard; a saida e o hex
-color="$(hyprpicker -a -f hex 2>/dev/null)" || exit 1
+# -a copia para o clipboard, -b tira o escape de cor ANSI da saida, -q silencia logs
+color="$(hyprpicker -a -f hex -b -q 2>/dev/null)" || exit 1
 [[ -z "$color" ]] && exit 0   # cancelado com Esc
 
 notify-send -a "Conta-gotas" -t 4000 "Cor copiada" "$color"

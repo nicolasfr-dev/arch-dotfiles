@@ -10,7 +10,7 @@ DRY_RUN=0
 [[ "${1:-}" == "--dry-run" ]] && DRY_RUN=1
 
 # diretorios de ~/.config gerenciados por este repo
-APPS=(hypr waybar foot swaync wofi wlogout qt5ct qt6ct gtk-3.0 gtk-4.0)
+APPS=(hypr waybar foot swaync wofi wlogout qt5ct qt6ct gtk-3.0 gtk-4.0 bat)
 
 c_ok=$'\e[32m'; c_warn=$'\e[33m'; c_info=$'\e[34m'; c_off=$'\e[0m'
 say()  { printf '%s%s%s\n' "$c_info" "$*" "$c_off"; }
@@ -59,6 +59,20 @@ else
   mkdir -p "$(dirname "$WALL")"
   python3 "$DOTFILES/scripts/gen-wallpaper.py" "$WALL" 1920 1080 >/dev/null
   ok "$WALL gerado"
+fi
+
+say "==> Tema do bat"
+# O bat nao enxerga temas de ~/.config/bat/themes ate reconstruir o cache.
+# Sem isso ele avisa "Unknown theme 'tokyonight_night'" a cada chamada.
+if command -v bat >/dev/null; then
+  if (( DRY_RUN )); then
+    warn "rodaria: bat cache --build"
+  else
+    bat cache --build >/dev/null 2>&1 && ok "cache do bat reconstruido" \
+      || warn "falha ao reconstruir o cache do bat"
+  fi
+else
+  warn "bat nao instalado - pulando"
 fi
 
 say "==> Tema GTK"
