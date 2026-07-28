@@ -103,9 +103,63 @@ window#waybar.empty #window {
 
 /* ---------- módulos da direita ---------- */
 
+#cpu,
+#memory,
+#temperature {
+  padding: 0 8px;
+  margin: 4px 1px;
+  border-radius: 6px;
+  background: transparent;
+  font-weight: 500;
+}
+
+#cpu {
+  color: @green;
+}
+
+#memory {
+  color: @cyan;
+}
+
+#temperature {
+  color: @orange;
+}
+
+#temperature.critical {
+  color: @red;
+  background: alpha(@red, 0.15);
+}
+
+#idle_inhibitor {
+  color: @comment;
+}
+
+#idle_inhibitor.activated {
+  color: @orange;
+  background: alpha(@orange, 0.15);
+}
+
+#power-profiles-daemon {
+  color: @green;
+}
+
+#power-profiles-daemon.performance {
+  color: @red;
+}
+
+#power-profiles-daemon.balanced {
+  color: @blue;
+}
+
+#power-profiles-daemon.power-saver {
+  color: @green;
+}
+
 #tray,
 #privacy,
 #custom-notification,
+#idle_inhibitor,
+#power-profiles-daemon,
 #backlight,
 #pulseaudio,
 #bluetooth,
@@ -121,6 +175,11 @@ window#waybar.empty #window {
 }
 
 #tray:hover,
+#idle_inhibitor:hover,
+#power-profiles-daemon:hover,
+#cpu:hover,
+#memory:hover,
+#temperature:hover,
 #backlight:hover,
 #pulseaudio:hover,
 #bluetooth:hover,

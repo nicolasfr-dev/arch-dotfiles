@@ -62,8 +62,9 @@ hl.on("hyprland.start", function ()
     -- inatividade / bloqueio de tela (timeouts em hypridle.conf)
     hl.exec_cmd("hypridle")
 
-    -- agente polkit (dialogos de autenticacao grafica)
-    hl.exec_cmd("/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1")
+    -- agente polkit (dialogos de autenticacao grafica).
+    -- Prefere o nativo do Hyprland; cai no do GNOME se nao estiver instalado.
+    hl.exec_cmd("command -v hyprpolkitagent >/dev/null && hyprpolkitagent || /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1")
 
     -- historico de clipboard + persistencia apos fechar a janela de origem
     hl.exec_cmd("wl-paste --type text --watch cliphist store")
@@ -355,6 +356,12 @@ hl.bind(mainMod .. " + SHIFT + V", hl.dsp.exec_cmd(clipboard))
 hl.bind(mainMod .. " + N",         hl.dsp.exec_cmd("swaync-client -t -sw"))
 hl.bind(mainMod .. " + SHIFT + N", hl.dsp.exec_cmd("swaync-client -d -sw"))
 
+-- Conta-gotas de cor (copia o hex e notifica)
+hl.bind(mainMod .. " + SHIFT + C", hl.dsp.exec_cmd(os.getenv("HOME") .. "/.dotfiles/scripts/color-pick.sh"))
+
+-- Filtro de luz azul (liga/desliga em 4000K)
+hl.bind(mainMod .. " + SHIFT + T", hl.dsp.exec_cmd(os.getenv("HOME") .. "/.dotfiles/scripts/toggle-sunset.sh"))
+
 -- Move focus with mainMod + arrow keysi
 hl.bind(mainMod .. " + left",  hl.dsp.focus({ direction = "left" }))
 hl.bind(mainMod .. " + right", hl.dsp.focus({ direction = "right" }))
@@ -487,14 +494,16 @@ for _, cls in ipairs({ "pavucontrol", "blueman-manager", "nm-connection-editor",
     })
 end
 
--- Terminal flutuante do nmtui (aberto pelo clique na waybar)
-hl.window_rule({
-    name  = "float-nmtui",
-    match = { class = "^(nmtui-float)$" },
-    float = true,
-    center = true,
-    size  = "800 560",
-})
+-- Terminais flutuantes abertos pelos cliques na waybar
+for cls, size in pairs({ ["nmtui-float"] = "800 560", ["btop-float"] = "1000 640" }) do
+    hl.window_rule({
+        name  = "float-" .. cls,
+        match = { class = "^(" .. cls .. ")$" },
+        float = true,
+        center = true,
+        size  = size,
+    })
+end
 
 -- Dialogos de arquivo / popups em geral
 hl.window_rule({

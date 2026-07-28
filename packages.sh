@@ -25,15 +25,33 @@ REPO=(
 )
 
 # --- AUR ---
+QOL_REPO=(
+  # desktop
+  hyprpicker            # conta-gotas de cor (SUPER+SHIFT+C)
+  hyprsunset            # filtro de luz azul (SUPER+SHIFT+T)
+  power-profiles-daemon # perfis de energia + modulo na waybar
+  ffmpegthumbnailer     # miniaturas de video no nautilus
+  noto-fonts-cjk        # cobertura de glifos
+
+  # terminal
+  fzf ripgrep fd bat eza zoxide
+  lazygit github-cli btop jq
+)
+
 AUR=(
   wlogout                  # menu de energia
   tokyonight-gtk-theme-git # tema GTK
+  hyprpolkit-agent         # agente polkit nativo do Hyprland
+  wl-screenrec             # grava tela com encoding por hardware (Iris Xe)
 )
 
 echo "==> repos oficiais"
-sudo pacman -S --needed "${REPO[@]}"
+sudo pacman -S --needed "${REPO[@]}" "${QOL_REPO[@]}"
 
 echo "==> AUR"
 yay -S --needed "${AUR[@]}"
+
+echo "==> habilitando o power-profiles-daemon"
+sudo systemctl enable --now power-profiles-daemon.service
 
 echo "==> pronto. Agora rode: ./install.sh"

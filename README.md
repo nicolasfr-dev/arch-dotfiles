@@ -61,6 +61,8 @@ scripts/gen-wallpaper.py  gera o wallpaper (PNG puro, sem dependências)
 | `SUPER` + `N` | central de notificações |
 | `SUPER` + `SHIFT` + `N` | não perturbe |
 | `SUPER` + `SHIFT` + `V` | histórico de clipboard |
+| `SUPER` + `SHIFT` + `C` | conta-gotas de cor (copia o hex) |
+| `SUPER` + `SHIFT` + `T` | filtro de luz azul (4000K) |
 | `SUPER` + `1..0` | ir para workspace |
 | `SUPER` + `SHIFT` + `1..0` | mover janela para workspace |
 | `SUPER` + `setas` | mover foco |
