@@ -91,14 +91,28 @@
  * Para ajustar: mexa apenas no alpha. 0.60 deixa o wallpaper mais visivel,
  * 0.85 quase fecha. A area de conteudo segue opaca (--zen-main-browser-background).
  */
-#navigator-toolbox,
-#titlebar {
-  background-color: rgba(26, 27, 38, 0.72) !important; /* #1a1b26 */
-}
-
 :root {
+  /* Tint unico da UI translucida. Mexa so no alpha:
+   * 0.60 = wallpaper mais visivel, 0.85 = quase opaco. */
+  --tn-glass: rgba(26, 27, 38, 0.72); /* #1a1b26 */
+
   --zen-main-browser-background-toolbar: transparent !important;
   --zen-main-browser-background-toolbar-old: transparent !important;
+}
+
+/* Sidebar */
+#navigator-toolbox,
+#titlebar {
+  background-color: var(--tn-glass) !important;
+}
+
+/* Moldura ao redor do site.
+ * #browser e #tabbrowser-tabpanels sao 'transparent !important' no Zen, entao
+ * a faixa em volta do conteudo mostrava o wallpaper cru (medido #111111).
+ * Tingimos o wrapper, e nao o #browser: este ultimo tambem contem a sidebar,
+ * e as duas camadas empilhariam. */
+#zen-appcontent-wrapper {
+  background-color: var(--tn-glass) !important;
 }
 
 /* Barra de progresso de carregamento */
