@@ -471,6 +471,10 @@ hl.window_rule({
     float = true,
 })
 
+-- Pinning de workspaces por monitor.
+-- Nao precisa de guarda para o HDMI desconectado: o Hyprland ja faz o fallback
+-- para o monitor em foco, e os 10 workspaces seguem alcancaveis (testado com
+-- o HDMI fora).
 for i = 1, 5 do
     hl.workspace_rule({
         workspace = tostring(i),
