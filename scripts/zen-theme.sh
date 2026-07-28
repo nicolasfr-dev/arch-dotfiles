@@ -73,5 +73,5 @@ case "${1:-status}" in
     zen_running && echo "  (Zen esta RODANDO)" || echo "  (Zen fechado)"
     ;;
   *)
-    echo "uso: $0 {on|off|status}"; exit 1 ;;
+    echo "uso: $0 {on|prefs|off|status}"; exit 1 ;;
 esac
