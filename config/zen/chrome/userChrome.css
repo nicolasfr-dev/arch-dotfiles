@@ -11,10 +11,31 @@
 
 :host(:is(.anonymous-content-host, notification-message)),
 :root {
+  /* Forca o ramo escuro do light-dark(). Sem isto a sidebar fica cinza claro:
+   * --zen-main-browser-background e um light-dark() HARDCODED
+   * (rgb(235,235,235) / #1b1b1b) que nao deriva do --zen-branding-dark. */
+  color-scheme: dark !important;
+  --toolbar-color-scheme: dark !important;
+
   /* ---- fontes da derivacao do Zen ---- */
   --zen-primary-color: #7aa2f7 !important;   /* acento; padrao era AccentColor */
   --zen-branding-dark: #1a1b26 !important;   /* base escura; padrao era #101010 */
   --zen-branding-paper: #c0caf5 !important;
+
+  /* ---- fundos que o Zen NAO deriva: valores explicitos, sem light-dark ---- */
+  --zen-main-browser-background: #1a1b26 !important;
+  --zen-main-browser-background-toolbar: #1a1b26 !important;
+  --zen-navigator-toolbox-background: transparent !important;
+
+  --zen-colors-primary: #7aa2f7 !important;
+  --zen-colors-secondary: #24283b !important;
+  --zen-colors-tertiary: #1a1b26 !important;
+  --zen-colors-hover-bg: #292e42 !important;
+  --zen-colors-input-bg: #16161e !important;
+  --zen-toolbar-element-bg: #24283b !important;
+  --zen-toolbar-element-bg-hover: #292e42 !important;
+  --zen-urlbar-background: #16161e !important;
+  --zen-in-content-dialog-background: #1a1b26 !important;
 
   /* ---- barra de titulo / toolbar ---- */
   --lwt-accent-color: #16161e !important;
