@@ -50,15 +50,30 @@ for f in "$DOTFILES"/home/.*; do
 done
 
 say "==> Wallpaper"
-WALL="$HOME/.local/share/wallpapers/tokyonight.png"
-if [[ -f "$WALL" ]]; then
-  ok "$WALL (ja existe)"
+WALLDIR="$HOME/.local/share/wallpapers"
+FALLBACK="$WALLDIR/tokyonight.png"
+
+# Wallpapers de terceiros nao ficam no repo (nao redistribuo arte que nao e
+# minha), entao aqui a gente checa o que o hyprpaper.conf realmente pede e
+# avisa se o arquivo nao existe nesta maquina.
+WANTED="$(sed -n 's|^[[:space:]]*path[[:space:]]*=[[:space:]]*||p' \
+          "$DOTFILES/config/hypr/hyprpaper.conf" 2>/dev/null | head -1)"
+WANTED="${WANTED/#\~/$HOME}"
+
+mkdir -p "$WALLDIR"
+if [[ -n "$WANTED" && -f "$WANTED" ]]; then
+  ok "$(basename "$WANTED")"
 elif (( DRY_RUN )); then
-  warn "geraria $WALL"
+  warn "geraria o fallback $FALLBACK"
 else
-  mkdir -p "$(dirname "$WALL")"
-  python3 "$DOTFILES/scripts/gen-wallpaper.py" "$WALL" 1920 1080 >/dev/null
-  ok "$WALL gerado"
+  [[ -n "$WANTED" ]] && warn "$(basename "$WANTED") nao existe nesta maquina"
+  if [[ -f "$FALLBACK" ]]; then
+    ok "fallback ja presente: $(basename "$FALLBACK")"
+  else
+    python3 "$DOTFILES/scripts/gen-wallpaper.py" "$FALLBACK" 1920 1080 >/dev/null
+    ok "fallback gerado: $(basename "$FALLBACK")"
+  fi
+  [[ -n "$WANTED" ]] && warn "copie o arquivo para $WALLDIR/ ou aponte o hyprpaper.conf para o fallback"
 fi
 
 say "==> Tema do Zen Browser"
