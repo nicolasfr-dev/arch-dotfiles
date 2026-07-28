@@ -37,13 +37,20 @@ QOL_REPO=(
   # terminal
   fzf ripgrep fd bat eza zoxide
   lazygit github-cli btop jq
+
+  # gravacao de tela com aceleracao por hardware (ver nota no bloco AUR)
+  gpu-screen-recorder
 )
 
 AUR=(
   wlogout                  # menu de energia
   tokyonight-gtk-theme-git # tema GTK
-  wl-screenrec             # grava tela com encoding por hardware (Iris Xe)
 )
+
+# NAO usar wl-screenrec: a crate ffmpeg-next 8.0.0 que ele fixa nao cobre os
+# enums novos do ffmpeg 8.1 do Arch (AV_CODEC_ID_JPEGXS, AV_FRAME_DATA_EXIF,
+# AVCOL_PRI_EXT_BASE...) e o match exaustivo do Rust quebra o build.
+# gpu-screen-recorder faz o mesmo (VAAPI na Iris Xe) e vem pronto do repo.
 
 # Sem `set -e` daqui pra baixo de proposito: um nome de pacote errado faz o
 # pacman/yay abortar a transacao inteira, e com -e o script morreria antes das

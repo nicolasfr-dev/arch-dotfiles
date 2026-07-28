@@ -62,9 +62,11 @@ hl.on("hyprland.start", function ()
     -- inatividade / bloqueio de tela (timeouts em hypridle.conf)
     hl.exec_cmd("hypridle")
 
-    -- agente polkit (dialogos de autenticacao grafica).
-    -- Prefere o nativo do Hyprland; cai no do GNOME se nao estiver instalado.
-    hl.exec_cmd("command -v hyprpolkitagent >/dev/null && hyprpolkitagent || /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1")
+    -- Agente polkit: NAO iniciar aqui. O pacote hyprpolkitagent nao instala
+    -- binario no PATH, so um servico de usuario que engancha no
+    -- graphical-session.target -- ou seja, o uwsm ja sobe ele sozinho.
+    -- Habilitado uma vez com:
+    --   systemctl --user enable --now hyprpolkitagent.service
 
     -- historico de clipboard + persistencia apos fechar a janela de origem
     hl.exec_cmd("wl-paste --type text --watch cliphist store")
