@@ -56,6 +56,8 @@ scripts/gen-wallpaper.py  gera o wallpaper (PNG puro, sem dependências)
 | `SUPER` + `Z` | editor (zed) |
 | `SUPER` + `V` | flutuar janela |
 | `SUPER` + `F` | tela cheia |
+| `SUPER` + `J` | alternar direção do split (dwindle) |
+| `SUPER` + `P` | pseudo-tile |
 | `SUPER` + `L` | bloquear tela |
 | `SUPER` + `M` | menu de energia (wlogout) |
 | `SUPER` + `N` | central de notificações |

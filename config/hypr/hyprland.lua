@@ -38,7 +38,9 @@ local terminal    = "foot"
 local fileManager = "nautilus"
 local menu        = "vicinae toggle"   -- launcher principal
 local browser     = "zen-browser"
-local ide         = "zed"
+-- O binario do pacote 'zed' chama-se zeditor. O alias zed="zeditor" do
+-- ~/.bashrc nao vale aqui: exec_cmd nao carrega aliases de shell interativo.
+local ide         = "zeditor"
 local powerMenu   = "wlogout -p layer-shell"
 local clipboard   = "cliphist list | wofi --dmenu --prompt 'Clipboard' | cliphist decode | wl-copy"
 
