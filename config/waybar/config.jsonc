@@ -16,8 +16,11 @@
     "memory",
     "temperature"
   ],
+  // Os dois ficam no centro e se revezam pelo CSS: a waybar poe a classe
+  // .empty em window#waybar quando nao ha janela em foco.
   "modules-center": [
-    "hyprland/window"
+    "hyprland/window",
+    "custom/workspace"
   ],
   "modules-right": [
     "tray",
@@ -49,6 +52,14 @@
   "hyprland/submap": {
     "format": "󰘴 {}",
     "tooltip": false
+  },
+
+  // Mostrado no lugar do titulo quando o workspace esta vazio.
+  // O script escuta o socket de eventos do Hyprland (sem polling).
+  "custom/workspace": {
+    "exec": "$HOME/.dotfiles/scripts/waybar-workspace-name.py",
+    "return-type": "json",
+    "tooltip": true
   },
 
   "cpu": {

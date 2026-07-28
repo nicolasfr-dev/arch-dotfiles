@@ -95,10 +95,36 @@ window#waybar.hidden {
   font-weight: 500;
 }
 
-window#waybar.empty #window {
-  background: transparent;
-  border: none;
+/* ---------- centro: titulo da janela OU nome do workspace ----------
+ * A waybar poe a classe .empty em window#waybar quando nao ha janela em foco.
+ * Os dois modulos vivem no centro e se revezam.
+ *
+ * O GTK da waybar nao implementa 'display: none', entao o modulo inativo e
+ * colapsado por tamanho: font-size 0 zera a largura do label, e padding/margin
+ * zerados tiram o resto. So opacity nao bastaria -- o espaco continuaria la.
+ */
+
+#custom-workspace {
+  color: @comment;
+  padding: 0 14px;
+  font-weight: 500;
+}
+
+/* com janela em foco: some o nome do workspace */
+window#waybar:not(.empty) #custom-workspace {
+  font-size: 0;
+  min-width: 0;
   padding: 0;
+  margin: 0;
+  opacity: 0;
+}
+
+/* sem janela: some o titulo (ja vem vazio, isto so garante que nao ocupe espaco) */
+window#waybar.empty #window {
+  font-size: 0;
+  min-width: 0;
+  padding: 0;
+  margin: 0;
 }
 
 /* ---------- módulos da direita ---------- */
