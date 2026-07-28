@@ -1,65 +1,32 @@
 /* Zen Browser - Tokyo Night
  *
- * O Zen gera quase toda a paleta a partir de --zen-primary-color e da base
- * --zen-branding-dark (ver zen-styles/zen-theme.css no omni.ja). Entao a maior
- * parte do trabalho e sobrescrever essas duas; o resto e ajuste fino das
- * variaveis padrao do Firefox que o Zen nao deriva.
+ * Este arquivo cobre APENAS o que os knobs nativos do Zen nao alcancam.
  *
- * Requer toolkit.legacyUserProfileCustomizations.stylesheets = true (user.js).
+ * Feito nativamente (ver ../user.js e a UI do Zen):
+ *   - acento da UI ......... pref zen.theme.accent-color
+ *   - border radius ........ pref zen.theme.border-radius
+ *   - tema escuro .......... pref ui.systemUsesDarkTheme
+ *   - fundo da sidebar ..... gradiente por workspace, escolhido na UI
+ *
+ * NAO pintar #navigator-toolbox, #browser nem #zen-appcontent-wrapper aqui:
+ * com o hover-to-expand, a sidebar flutua sobre o conteudo e um background
+ * nesses elementos captura o mouse no lugar dela -- o hover morre.
+ *
  * Paleta em ../../colors/tokyonight.md
  */
 
-:host(:is(.anonymous-content-host, notification-message)),
 :root {
-  /* Forca o ramo escuro do light-dark(). Sem isto a sidebar fica cinza claro:
-   * --zen-main-browser-background e um light-dark() HARDCODED
-   * (rgb(235,235,235) / #1b1b1b) que nao deriva do --zen-branding-dark. */
+  /* Reforco: o pref ui.systemUsesDarkTheme ja deve dar conta, mas isto
+   * garante que o light-dark() do Zen nunca caia no ramo claro. */
   color-scheme: dark !important;
-  --toolbar-color-scheme: dark !important;
-
-  /* ---- fontes da derivacao do Zen ---- */
-  --zen-primary-color: #7aa2f7 !important;   /* acento; padrao era AccentColor */
-  --zen-branding-dark: #1a1b26 !important;   /* base escura; padrao era #101010 */
-  --zen-branding-paper: #c0caf5 !important;
-
-  /* ---- fundos que o Zen NAO deriva: valores explicitos, sem light-dark ---- */
-  /* Pintado pela camada .zen-browser-generic-background (pointer-events: none) */
-  --zen-main-browser-background: var(--tn-glass) !important;
-  --zen-navigator-toolbox-background: transparent !important;
-
-  --zen-colors-primary: #7aa2f7 !important;
-  --zen-colors-secondary: #24283b !important;
-  --zen-colors-tertiary: #1a1b26 !important;
-  --zen-colors-hover-bg: #292e42 !important;
-  --zen-colors-input-bg: #16161e !important;
-  --zen-toolbar-element-bg: #24283b !important;
-  --zen-toolbar-element-bg-hover: #292e42 !important;
-  --zen-urlbar-background: #16161e !important;
-  --zen-in-content-dialog-background: #1a1b26 !important;
-
-  /* ---- barra de titulo / toolbar ---- */
-  --lwt-accent-color: #16161e !important;
-  --lwt-accent-color-inactive: #16161e !important;
-  --lwt-text-color: #c0caf5 !important;
-  --toolbar-bgcolor: #1a1b26 !important;
-  --toolbar-color: #c0caf5 !important;
-  --toolbar-field-border-color: #3b4261 !important;
 
   /* ---- barra de endereco ---- */
   --toolbar-field-background-color: #16161e !important;
   --toolbar-field-color: #c0caf5 !important;
   --toolbar-field-focus-background-color: #24283b !important;
-  --toolbar-field-focus-color: #c0caf5 !important;
   --toolbar-field-focus-border-color: #7aa2f7 !important;
   --urlbar-box-bgcolor: #24283b !important;
   --urlbar-box-text-color: #a9b1d6 !important;
-  --urlbar-box-focus-bgcolor: #292e42 !important;
-
-  /* ---- abas ---- */
-  --tab-selected-bgcolor: #292e42 !important;
-  --tab-selected-textcolor: #c0caf5 !important;
-  --lwt-tab-line-color: #7aa2f7 !important;
-  --tab-hover-background-color: #24283b !important;
 
   /* ---- menus e popups ---- */
   --arrowpanel-background: #1a1b26 !important;
@@ -67,71 +34,10 @@
   --arrowpanel-border-color: #3b4261 !important;
   --panel-separator-color: #3b4261 !important;
 
-  /* ---- foco e selecao ---- */
+  /* ---- foco ---- */
   --focus-outline-color: #7aa2f7 !important;
-  --lwt-selected-tab-background-color: #292e42 !important;
 
-  /* ---- barra lateral do Zen ---- */
-  --zen-colors-border: #3b4261 !important;
-  --zen-dialog-background: #1a1b26 !important;
-
-  /* casa com o rounding do Hyprland */
-  --zen-border-radius: 10px !important;
-}
-
-/* ---- sidebar translucida, tingida de Tokyo Night ----
- * #navigator-toolbox e 'background: transparent' por design
- * (zen-browser-ui.css), entao a sidebar mostrava o wallpaper puro atraves do
- * blur do Hyprland -- medido #131313, um cinza neutro sem relacao com o tema.
- *
- * Aqui entra UMA camada semitransparente: o blur continua aparecendo, mas
- * filtrado pelo azul do Tokyo Night. Uma camada so, de proposito -- duas
- * empilhadas somam opacidade e o efeito some.
- *
- * Para ajustar: mexa apenas no alpha. 0.60 deixa o wallpaper mais visivel,
- * 0.85 quase fecha. A area de conteudo segue opaca (--zen-main-browser-background).
- */
-:root {
-  /* Tint unico da UI translucida. Mexa so no alpha:
-   * 0.60 = wallpaper mais visivel, 0.85 = quase opaco. */
-  --tn-glass: rgba(26, 27, 38, 0.72); /* #1a1b26 */
-
-  --zen-main-browser-background-toolbar: transparent !important;
-  --zen-main-browser-background-toolbar-old: transparent !important;
-}
-
-/* Sidebar */
-#navigator-toolbox,
-#titlebar {
-  background-color: var(--tn-glass) !important;
-}
-
-/* Divisoria entre a sidebar e o site.
- * #zen-sidebar-splitter e 'background: transparent' com largura
- * --zen-element-separation, entao aparecia o wallpaper cru ali. */
-#zen-sidebar-splitter {
-  background-color: var(--tn-glass) !important;
-}
-
-/* NAO pintar #zen-appcontent-wrapper nem #browser.
- * Com o hover-to-expand da sidebar, o #navigator-toolbox flutua POR CIMA do
- * conteudo. Dar background ao wrapper faz ele capturar o mouse no lugar da
- * sidebar -- o hover morre e so resta abrir no clique.
- * A moldura do conteudo se pinta pela camada .zen-browser-generic-background,
- * que e 'pointer-events: none' e portanto nao interfere no hover. */
-
-/* Barra de progresso de carregamento */
-.tab-loading-burst::before {
-  background-color: #7aa2f7 !important;
-}
-
-/* Scrollbars do chrome */
-:root {
+  /* ---- scrollbars ---- */
   scrollbar-color: #3b4261 #1a1b26;
   scrollbar-width: thin;
-}
-
-/* Indicador de workspace do Zen */
-#zen-current-workspace-indicator {
-  color: #7aa2f7 !important;
 }
