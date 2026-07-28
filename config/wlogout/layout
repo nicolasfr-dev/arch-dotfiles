@@ -5,12 +5,6 @@
     "keybind": "l"
 }
 {
-    "label": "hibernate",
-    "action": "systemctl hibernate",
-    "text": "Hibernar",
-    "keybind": "h"
-}
-{
     "label": "logout",
     "action": "hyprctl dispatch exit",
     "text": "Sair",

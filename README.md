@@ -77,9 +77,17 @@ Definido em `config/hypr/hypridle.conf`:
 | Tempo | Ação |
 |---|---|
 | 2min30 | escurece a tela |
-| 5min | bloqueia (hyprlock) |
 | 5min30 | desliga a tela |
 | 30min | suspende |
+
+**Não há bloqueio automático.** O login no TTY durante o boot já autentica a
+sessão (sem display manager, sem autologin), então travar de novo por
+inatividade pediria a senha duas vezes no mesmo uso. Bloqueio manual: `SUPER+L`.
+
+Se o hyprlock morrer e a sessão ficar travada, `misc:allow_session_lock_restore`
+está ligado: vá para um TTY (`Ctrl+Alt+F2`), logue e rode `hyprlock` — ele
+reassume o lock órfão. Nunca mate o hyprlock por sinal: ele morre antes de
+enviar o unlock e a sessão fica presa.
 
 ## Wallpaper
 
