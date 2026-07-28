@@ -79,29 +79,26 @@
   --zen-border-radius: 10px !important;
 }
 
-/* ---- sidebar opaca ----
- * #navigator-toolbox e transparent por design (zen-browser-ui.css), entao a
- * sidebar mostrava o wallpaper atraves do blur do Hyprland: medido #131313,
- * um cinza neutro que nao vem do tema. A area de conteudo, por ser opaca, ja
- * estava correta em #1a1b26. Aqui a gente fecha a transparencia.
+/* ---- sidebar translucida, tingida de Tokyo Night ----
+ * #navigator-toolbox e 'background: transparent' por design
+ * (zen-browser-ui.css), entao a sidebar mostrava o wallpaper puro atraves do
+ * blur do Hyprland -- medido #131313, um cinza neutro sem relacao com o tema.
+ *
+ * Aqui entra UMA camada semitransparente: o blur continua aparecendo, mas
+ * filtrado pelo azul do Tokyo Night. Uma camada so, de proposito -- duas
+ * empilhadas somam opacidade e o efeito some.
+ *
+ * Para ajustar: mexa apenas no alpha. 0.60 deixa o wallpaper mais visivel,
+ * 0.85 quase fecha. A area de conteudo segue opaca (--zen-main-browser-background).
  */
 #navigator-toolbox,
-#titlebar,
-.zen-toolbar-background {
-  background-color: #1a1b26 !important;
-}
-
-.zen-browser-generic-background::after,
-.zen-browser-generic-background::before {
-  background: #1a1b26 !important;
-  background-blend-mode: normal !important;
+#titlebar {
+  background-color: rgba(26, 27, 38, 0.72) !important; /* #1a1b26 */
 }
 
 :root {
-  --zen-background-opacity: 1 !important;
-  --zen-main-browser-background-old: #1a1b26 !important;
-  --zen-main-browser-background-toolbar-old: #1a1b26 !important;
-  --zen-themed-toolbar-bg-transparent: #1a1b26 !important;
+  --zen-main-browser-background-toolbar: transparent !important;
+  --zen-main-browser-background-toolbar-old: transparent !important;
 }
 
 /* Barra de progresso de carregamento */
