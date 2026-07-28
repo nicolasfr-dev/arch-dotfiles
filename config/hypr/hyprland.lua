@@ -59,11 +59,8 @@ hl.on("hyprland.start", function ()
     -- daemon de notificacoes
     hl.exec_cmd("swaync")
 
-    -- inatividade / bloqueio de tela
-    -- DESATIVADO ate validar o hyprlock nesta maquina (ele deu SIGSEGV no
-    -- caminho de exit, ver git log). Bloqueio manual segue em SUPER+L.
-    -- Para religar: descomente a linha abaixo e rode `hypridle &`.
-    -- hl.exec_cmd("hypridle")
+    -- inatividade / bloqueio de tela (timeouts em hypridle.conf)
+    hl.exec_cmd("hypridle")
 
     -- agente polkit (dialogos de autenticacao grafica)
     hl.exec_cmd("/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1")
