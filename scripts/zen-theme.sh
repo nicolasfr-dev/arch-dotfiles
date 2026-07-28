@@ -55,7 +55,15 @@ case "${1:-status}" in
     ln -sfn "$DOTFILES/config/zen/user.js"                "$P/user.js"
     ln -sfn "$DOTFILES/config/zen/chrome/userChrome.css"  "$P/chrome/userChrome.css"
     ln -sfn "$DOTFILES/config/zen/chrome/userContent.css" "$P/chrome/userContent.css"
-    echo "tema LIGADO - reinicie o Zen"
+    echo "tema LIGADO (prefs + CSS) - reinicie o Zen"
+    ;;
+  prefs)
+    # Etapa de bissecao: so o user.js, sem nenhum CSS. Se algo quebrar aqui,
+    # o culpado e um pref; se nao quebrar, e o userChrome.css.
+    zen_running && { echo "feche o Zen primeiro"; exit 1; }
+    rm -f "$P/chrome/userChrome.css" "$P/chrome/userContent.css"
+    ln -sfn "$DOTFILES/config/zen/user.js" "$P/user.js"
+    echo "SO OS PREFS ligados (sem CSS) - reinicie o Zen"
     ;;
   status)
     echo "perfil: $(basename "$P")"
