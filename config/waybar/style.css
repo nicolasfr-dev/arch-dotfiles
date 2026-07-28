@@ -56,10 +56,12 @@ window#waybar.hidden {
 
 #workspaces button {
   all: unset;
-  padding: 0 7px;
+  min-width: 20px;
+  padding: 0 6px;
   margin: 4px 1px;
   border-radius: 6px;
   color: @comment;
+  font-size: 11px;
   transition: all 200ms cubic-bezier(0.55, 0.06, 0.68, 0.19);
 }
 
@@ -71,7 +73,8 @@ window#waybar.hidden {
 #workspaces button.active {
   background: alpha(@blue, 0.18);
   color: @blue;
-  padding: 0 13px;
+  font-weight: 700;
+  padding: 0 12px;
 }
 
 #workspaces button.urgent {

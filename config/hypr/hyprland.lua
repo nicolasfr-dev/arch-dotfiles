@@ -276,6 +276,11 @@ hl.config({
     misc = {
         force_default_wallpaper = 0,    -- Set to 0 or 1 to disable the anime mascot wallpapers
         disable_hyprland_logo   = true, -- If true disables the random hyprland logo / anime girl background. :(
+
+        -- REDE DE SEGURANCA: se o hyprlock morrer/crashar, a sessao fica travada
+        -- sem nenhum cliente pra receber a senha. Com isto ligado, basta subir um
+        -- novo hyprlock (de um TTY: Ctrl+Alt+F2) que ele reassume o lock orfao.
+        allow_session_lock_restore = true,
     },
 })
 
@@ -360,10 +365,10 @@ hl.bind(mainMod .. " + SHIFT + up",    hl.dsp.window.move({ direction = "up" }))
 hl.bind(mainMod .. " + SHIFT + down",  hl.dsp.window.move({ direction = "down" }))
 
 -- Redimensionar a janela ativa
-hl.bind(mainMod .. " + CTRL + left",  hl.dsp.window.resize({ delta = { -60, 0 } }), { repeating = true })
-hl.bind(mainMod .. " + CTRL + right", hl.dsp.window.resize({ delta = {  60, 0 } }), { repeating = true })
-hl.bind(mainMod .. " + CTRL + up",    hl.dsp.window.resize({ delta = { 0, -60 } }), { repeating = true })
-hl.bind(mainMod .. " + CTRL + down",  hl.dsp.window.resize({ delta = { 0,  60 } }), { repeating = true })
+hl.bind(mainMod .. " + CTRL + left",  hl.dsp.window.resize({ x = -60, y =   0 }), { repeating = true })
+hl.bind(mainMod .. " + CTRL + right", hl.dsp.window.resize({ x =  60, y =   0 }), { repeating = true })
+hl.bind(mainMod .. " + CTRL + up",    hl.dsp.window.resize({ x =   0, y = -60 }), { repeating = true })
+hl.bind(mainMod .. " + CTRL + down",  hl.dsp.window.resize({ x =   0, y =  60 }), { repeating = true })
 
 -- Switch workspaces with mainMod + [0-9]
 -- Move active window to a workspace with mainMod + SHIFT + [0-9]

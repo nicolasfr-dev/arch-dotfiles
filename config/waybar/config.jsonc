@@ -30,17 +30,14 @@
   ],
 
   "hyprland/workspaces": {
-    "format": "{icon}",
+    "format": "{id}",
     "on-click": "activate",
     "sort-by-number": true,
-    "format-icons": {
-      "active": "",
-      "default": "",
-      "empty": ""
-    },
+    // espelha o pinning de monitor definido em hyprland.lua:
+    // 1-5 no HDMI-A-1, 6-10 no eDP-1
     "persistent-workspaces": {
-      "eDP-1": [6, 7, 8],
-      "HDMI-A-1": [1, 2, 3]
+      "eDP-1": [6, 7, 8, 9, 10],
+      "HDMI-A-1": [1, 2, 3, 4, 5]
     }
   },
 
@@ -56,9 +53,7 @@
     "rewrite": {
       "(.*) — Zen Browser": "󰈹  $1",
       "(.*) - Zed": "󰘐  $1",
-      "(.*) - foot": "  $1",
-      "^foot$": "  terminal",
-      "": "󰇄  desktop"
+      "^foot$": "  terminal"
     }
   },
 
