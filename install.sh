@@ -61,6 +61,34 @@ else
   ok "$WALL gerado"
 fi
 
+say "==> Tema do Zen Browser"
+# O perfil ativo vem do installs.ini (mais confiavel que o profiles.ini, que
+# pode listar perfis orfaos). O nome do diretorio tem espacos e parenteses.
+ZEN_ROOT="$CONFIG/zen"
+ZEN_PROFILE=""
+if [[ -f "$ZEN_ROOT/installs.ini" ]]; then
+  ZEN_PROFILE="$(sed -n 's/^Default=//p' "$ZEN_ROOT/installs.ini" | head -1)"
+fi
+if [[ -z "$ZEN_PROFILE" && -f "$ZEN_ROOT/profiles.ini" ]]; then
+  ZEN_PROFILE="$(awk -F= '/^Path=/{p=$2} /^Default=1/{print p; exit}' "$ZEN_ROOT/profiles.ini")"
+fi
+
+if [[ -n "$ZEN_PROFILE" && -d "$ZEN_ROOT/$ZEN_PROFILE" ]]; then
+  ok "perfil: $ZEN_PROFILE"
+  if (( DRY_RUN )); then
+    warn "linkaria user.js, userChrome.css e userContent.css no perfil"
+  else
+    mkdir -p "$ZEN_ROOT/$ZEN_PROFILE/chrome"
+    # Arquivo a arquivo, e nao o diretorio chrome/ inteiro: o Zen gera
+    # zen-themes.css ali dentro e sobrescreve o que estiver no caminho.
+    link "$DOTFILES/config/zen/user.js"                "$ZEN_ROOT/$ZEN_PROFILE/user.js"
+    link "$DOTFILES/config/zen/chrome/userChrome.css"  "$ZEN_ROOT/$ZEN_PROFILE/chrome/userChrome.css"
+    link "$DOTFILES/config/zen/chrome/userContent.css" "$ZEN_ROOT/$ZEN_PROFILE/chrome/userContent.css"
+  fi
+else
+  warn "perfil do Zen nao encontrado em $ZEN_ROOT - pulando"
+fi
+
 say "==> Tema do bat"
 # O bat nao enxerga temas de ~/.config/bat/themes ate reconstruir o cache.
 # Sem isso ele avisa "Unknown theme 'tokyonight_night'" a cada chamada.

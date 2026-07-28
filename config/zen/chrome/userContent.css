@@ -1,0 +1,19 @@
+/* Zen Browser - Tokyo Night (paginas internas)
+ * Requer toolkit.legacyUserProfileCustomizations.stylesheets = true
+ */
+
+/* Evita o flash branco ao abrir aba nova / navegar */
+@-moz-document url("about:blank"), url("about:newtab"), url("about:home") {
+  :root,
+  body {
+    background-color: #1a1b26 !important;
+  }
+}
+
+/* Scrollbars nas paginas */
+@-moz-document url-prefix("about:") {
+  * {
+    scrollbar-color: #3b4261 #1a1b26 !important;
+    scrollbar-width: thin !important;
+  }
+}

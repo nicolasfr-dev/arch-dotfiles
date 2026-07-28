@@ -1,0 +1,75 @@
+/* Zen Browser - Tokyo Night
+ *
+ * O Zen gera quase toda a paleta a partir de --zen-primary-color e da base
+ * --zen-branding-dark (ver zen-styles/zen-theme.css no omni.ja). Entao a maior
+ * parte do trabalho e sobrescrever essas duas; o resto e ajuste fino das
+ * variaveis padrao do Firefox que o Zen nao deriva.
+ *
+ * Requer toolkit.legacyUserProfileCustomizations.stylesheets = true (user.js).
+ * Paleta em ../../colors/tokyonight.md
+ */
+
+:host(:is(.anonymous-content-host, notification-message)),
+:root {
+  /* ---- fontes da derivacao do Zen ---- */
+  --zen-primary-color: #7aa2f7 !important;   /* acento; padrao era AccentColor */
+  --zen-branding-dark: #1a1b26 !important;   /* base escura; padrao era #101010 */
+  --zen-branding-paper: #c0caf5 !important;
+
+  /* ---- barra de titulo / toolbar ---- */
+  --lwt-accent-color: #16161e !important;
+  --lwt-accent-color-inactive: #16161e !important;
+  --lwt-text-color: #c0caf5 !important;
+  --toolbar-bgcolor: #1a1b26 !important;
+  --toolbar-color: #c0caf5 !important;
+  --toolbar-field-border-color: #3b4261 !important;
+
+  /* ---- barra de endereco ---- */
+  --toolbar-field-background-color: #16161e !important;
+  --toolbar-field-color: #c0caf5 !important;
+  --toolbar-field-focus-background-color: #24283b !important;
+  --toolbar-field-focus-color: #c0caf5 !important;
+  --toolbar-field-focus-border-color: #7aa2f7 !important;
+  --urlbar-box-bgcolor: #24283b !important;
+  --urlbar-box-text-color: #a9b1d6 !important;
+  --urlbar-box-focus-bgcolor: #292e42 !important;
+
+  /* ---- abas ---- */
+  --tab-selected-bgcolor: #292e42 !important;
+  --tab-selected-textcolor: #c0caf5 !important;
+  --lwt-tab-line-color: #7aa2f7 !important;
+  --tab-hover-background-color: #24283b !important;
+
+  /* ---- menus e popups ---- */
+  --arrowpanel-background: #1a1b26 !important;
+  --arrowpanel-color: #c0caf5 !important;
+  --arrowpanel-border-color: #3b4261 !important;
+  --panel-separator-color: #3b4261 !important;
+
+  /* ---- foco e selecao ---- */
+  --focus-outline-color: #7aa2f7 !important;
+  --lwt-selected-tab-background-color: #292e42 !important;
+
+  /* ---- barra lateral do Zen ---- */
+  --zen-colors-border: #3b4261 !important;
+  --zen-dialog-background: #1a1b26 !important;
+
+  /* casa com o rounding do Hyprland */
+  --zen-border-radius: 10px !important;
+}
+
+/* Barra de progresso de carregamento */
+.tab-loading-burst::before {
+  background-color: #7aa2f7 !important;
+}
+
+/* Scrollbars do chrome */
+:root {
+  scrollbar-color: #3b4261 #1a1b26;
+  scrollbar-width: thin;
+}
+
+/* Indicador de workspace do Zen */
+#zen-current-workspace-indicator {
+  color: #7aa2f7 !important;
+}
