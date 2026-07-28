@@ -40,6 +40,16 @@ QOL_REPO=(
 
   # gravacao de tela com aceleracao por hardware (ver nota no bloco AUR)
   gpu-screen-recorder
+
+  # ---- aceleracao de video por hardware (Intel Alder Lake / Iris Xe) ----
+  # Sem isto NAO ha VAAPI nenhum: o libva-mesa-driver so traz os drivers
+  # AMD/nouveau/virtio. Sintoma: 'vaInitialize failed' no gpu-screen-recorder
+  # e decodificacao de video 100% em CPU no navegador (queima bateria).
+  # A Iris Xe e Gen12, entao o driver certo e o iHD (intel-media-driver);
+  # o libva-intel-driver (i965) e so para geracoes antigas.
+  intel-media-driver    # driver VAAPI iHD
+  vulkan-intel          # driver Vulkan (ANV)
+  libva-utils           # vainfo, para diagnosticar
 )
 
 AUR=(
